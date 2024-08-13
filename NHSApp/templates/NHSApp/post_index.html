@@ -1,0 +1,55 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{post.title}}</title>
+        {%load static%}
+        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+    </head>
+    <body class="big-font">
+        <div>남목 커뮤니티</div>
+        <hr>
+        <div>현재시각 : {{now.tm_year}}Y {{now.tm_mon}}M {{now.tm_mday}}D {{now.tm_hour}}H {{now.tm_min}}M {{now.tm_sec}}S</div>
+        <div><a href="/NHSApp/">뒤로 가기</a></div>
+        <hr>
+        <div class="parent">
+            <div class="child">{{post.title}}</div>
+            <div class="small-font">
+                <div>{{post.author}} {{post.views}}views</div>
+                <div>
+                    {{post.pub_date.year}}Y {{post.pub_date.month}}M {{post.pub_date.day}}D
+                    {{post.pub_date.hour}}H:{{post.pub_date.minute}}M
+                </div>
+            </div>
+        </div>
+        <div>{{post.content}}</div>
+        <div class="parent">
+            <form method="post" action="{%url 'upvote_post_view' post.id%}">
+                {%csrf_token%}
+                <button class="child" type="submit">추천</button>
+            </form>
+            <form method="post" action="{%url 'downvote_post_view' post.id%}">
+                {%csrf_token%}
+                <button class="child" type="submit">비추</button>
+            </form>
+        </div>
+        <hr>
+        <div>댓글</div>
+        <textarea style="width: 600px; height: 100px; resize: none;" class="normal-font" placeholder="댓글 입력하기"></textarea>
+        {%for comment in comment_list%}
+        <div class="parent">
+            <div class="child">{{comment.author}}</div>
+            <div class="child small-font">
+                {{comment.pub_date.year}}
+                {{comment.pub_date.month}}
+                {{comment.pub_date.day}}
+                {{comment.pub_date.hour}}:{{comment.pub_date.minute}}
+            </div>
+        </div>
+        <div>
+            {{comment.content}}
+        </div>
+        {%endfor%}
+    </body>
+</html>
