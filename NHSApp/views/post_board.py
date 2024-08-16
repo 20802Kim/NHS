@@ -5,6 +5,7 @@ from ..models import Post
 def post_board_view(request):
     post_list=list(Post.objects.order_by('-pub_date'))
     context={
+        'user':request.user,
         'now':time.localtime(time.time()),
         'post_list':post_list
     }

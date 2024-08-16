@@ -1,3 +1,4 @@
+<!-- NHS/NHSApp/templates/NHSApp/post_index.html start -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -9,6 +10,19 @@
     </head>
     <body class="big-font">
         <div>남목 커뮤니티</div>
+        {%if user.is_authenticated%}
+            <form method="post" action="{%url 'logout_view'%}">
+                {%csrf_token%}
+                <button type="submit">로그아웃</button>
+            </form>
+            <div>현재 계정</div>
+            <a href="/NHSApp/account/{{user.username}}">{{user.username}}</a>
+            {%else%}
+            <form method="post" action="{%url 'login_view'%}">
+                {%csrf_token%}
+                <button type="submit">로그인</button>
+            </form>
+        {%endif%}
         <hr>
         <div>현재시각 : {{now.tm_year}}Y {{now.tm_mon}}M {{now.tm_mday}}D {{now.tm_hour}}H {{now.tm_min}}M {{now.tm_sec}}S</div>
         <div><a href="/NHSApp/">뒤로 가기</a></div>
@@ -16,7 +30,7 @@
         <div class="parent">
             <div class="child">{{post.title}}</div>
             <div class="small-font">
-                <div>{{post.author}} {{post.views}}views</div>
+                <div><a href="/NHSApp/account/{{post.author}}">{{post.author}}</a> {{post.views}}views</div>
                 <div>
                     {{post.pub_date.year}}Y {{post.pub_date.month}}M {{post.pub_date.day}}D
                     {{post.pub_date.hour}}H:{{post.pub_date.minute}}M
@@ -27,16 +41,22 @@
         <div class="parent">
             <form method="post" action="{%url 'upvote_post_view' post.id%}">
                 {%csrf_token%}
-                <button class="child" type="submit">추천</button>
+                <button class="child" type="submit">추천 {{post.total_upvotes}}</button>
             </form>
             <form method="post" action="{%url 'downvote_post_view' post.id%}">
                 {%csrf_token%}
-                <button class="child" type="submit">비추</button>
+                <button class="child" type="submit">비추 {{post.total_downvotes}}</button>
             </form>
         </div>
         <hr>
         <div>댓글</div>
-        <textarea style="width: 600px; height: 100px; resize: none;" class="normal-font" placeholder="댓글 입력하기"></textarea>
+        {%if user.is_authenticated%}
+        <form method="post" action="{% url 'upload_comment_view' post.id%}">
+            {%csrf_token%}
+            <textarea style="width: 600px; height: 100px; resize: none;" class="normal-font" placeholder="댓글 입력하기" name="content"></textarea>
+            <button type="submit">댓글 작성</button>
+        </form>
+        {%endif%}
         {%for comment in comment_list%}
         <div class="parent">
             <div class="child">{{comment.author}}</div>
@@ -53,3 +73,4 @@
         {%endfor%}
     </body>
 </html>
+<!-- NHS/NHSApp/templates/NHSApp/post_index.html end -->

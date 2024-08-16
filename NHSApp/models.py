@@ -28,6 +28,10 @@ class Post(models.Model):
             return True
         return False
     
+    def total_upvotes(self):
+        return self.upvote.count()
+    def total_downvotes(self):
+        return self.downvote.count()
     def total_votes(self):
         return self.upvote.count()-self.downvote.count()
 
@@ -44,3 +48,7 @@ class Comment(models.Model):
         self.post.comment_num+=1
         self.post.save()
         super().save(*args, **kwargs)
+    def delete(self, *args, **kwargs):
+        self.post.comment_num-=1
+        self.post.save()
+        super().delete(*args, **kwargs)

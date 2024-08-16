@@ -124,3 +124,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or another backend
+SESSION_COOKIE_SECURE = False  # Ensure it's False for local testing (use True in production with HTTPS)

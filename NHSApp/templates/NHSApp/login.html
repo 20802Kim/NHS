@@ -1,3 +1,4 @@
+<!-- NHS/NHSApp/templates/NHSApp/login.html start -->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -15,8 +16,11 @@
             <input type="text" name="username" required>
             <div>password</div>
             <input type="password" name="password" required>
+            {%if error%}
             <div>{{error}}</div>
+            {%endif%}
             <button type="submit">로그인하기</button>
         </form>
     </body>
 </html>
+<!-- NHS/NHSApp/templates/NHSApp/login.html end -->

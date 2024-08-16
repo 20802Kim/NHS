@@ -1,0 +1,32 @@
+<!-- NHS/NHSApp/templates/NHSApp/account.html start -->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>남목 커뮤니티</title>
+        {%load static%}
+        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+    </head>
+    <body class="big-font">
+        <div>남목 커뮤니티</div>
+        <hr>
+        <div>현재시각 : {{now.tm_year}}Y {{now.tm_mon}}M {{now.tm_mday}}D {{now.tm_hour}}H {{now.tm_min}}M {{now.tm_sec}}S</div>
+        <a href="/NHSApp/">뒤로 가기</a>
+        <hr>
+        <div>
+            {{account.username}}의 게시글
+            {%for post in post_list%}
+            <div>
+                <a href="/NHSApp/{{post.pk}}">{{post.title}}</a> [{{post.comment_num}}]
+            </div>
+            <div class="small-font">
+                {{post.author}} {{post.pub_date.hour}}:{{post.pub_date.minute}}
+                {{post.views}}
+                {{post.total_votes}}
+            </div>
+            {%endfor%}
+        </div>
+    </body>
+</html>
+<!-- NHS/NHSApp/templates/NHSApp/account.html end -->
