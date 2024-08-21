@@ -24,10 +24,11 @@
             </form>
         {%endif%}
         <hr>
-        <div>현재시각 : {{now.tm_year}}Y {{now.tm_mon}}M {{now.tm_mday}}D {{now.tm_hour}}H {{now.tm_min}}M {{now.tm_sec}}S</div>
-        <hr>
         <div>
-            게시글
+            <div class="parent">
+                <div class="child">게시글</div>
+                <a href="{%url 'upload_post_view'%}" class="child">글 쓰기</a>
+            </div>
             {%for post in post_list%}
             <div>
                 <a href="/NHSApp/{{post.pk}}">{{post.title}}</a> [{{post.comment_num}}]

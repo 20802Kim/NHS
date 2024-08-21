@@ -7,6 +7,8 @@ class Post(models.Model):
     author= models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title=models.CharField(max_length=50)
     content=models.TextField()
+    
+
     pub_date=models.DateTimeField(auto_now_add=True)
     comment_num=models.IntegerField(default=0)
     upvote=models.ManyToManyField(User, related_name='upvoted_posts',blank=True)
@@ -37,6 +39,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post=models.ForeignKey(Post, on_delete=models.CASCADE)
+    parent_comment=models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     author=models.ForeignKey('auth.User', on_delete=models.CASCADE)
     content=models.TextField()
     pub_date=models.DateTimeField(auto_now_add=True)

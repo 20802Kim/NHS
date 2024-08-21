@@ -1,0 +1,34 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>남목 커뮤니티</title>
+        {%load static%}
+        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+    </head>
+    <body class="big-font">
+        <div>남목 커뮤니티</div>
+        <hr>
+        <div>글쓰기</div>
+        <div class="parent">
+            <div class="child">현재 계정{{user.username}}</div>
+            <a href="/NHSApp" class="child">뒤로 가기</a>
+        </div>
+        <form method="post" action="{%url 'upload_post_view'%}">
+            {%csrf_token%}
+            <div class="parent">
+                <div class="child">제목</div>
+                <textarea style="resize: none;" class="normal-font" placeholder="제목" name="title"></textarea>
+            </div>
+            <div class="parent">
+                <div class="child">내용</div>
+                <textarea style="width: 600px; height: 100px;resize: none;" class="normal-font" placeholder="내용" name="content"></textarea>
+            </div>
+            <button type="submit">
+                글 올리기
+            </button>
+            
+        </form>
+    </body>
+</html>
