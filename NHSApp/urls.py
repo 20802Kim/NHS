@@ -1,4 +1,4 @@
-# 애플리케이션 폴더의 urls.py
+# NHS/NHSApp/urls.py start
 
 from django.urls import path
 from .views import post_board_view, post_index_view
@@ -20,3 +20,5 @@ urlpatterns = [
     path('logout/',logout_view, name='logout_view'),
     path('account/<str:username>',account_view, name='account_view'),
 ]
+
+# NHS/NHSApp/urls.py end

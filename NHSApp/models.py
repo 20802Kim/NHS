@@ -1,13 +1,20 @@
+# NHS/NHSApp/models.py start
 from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Post(models.Model):
+    CATEGORY_CHOICES=[
+        ('일반','general'),
+        ('질문','question'),
+        ('공지','notice')
+    ]
+    
     author= models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title=models.CharField(max_length=50)
     content=models.TextField()
-    
+    category=models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='일반')
 
     pub_date=models.DateTimeField(auto_now_add=True)
     comment_num=models.IntegerField(default=0)
@@ -55,3 +62,4 @@ class Comment(models.Model):
         self.post.comment_num-=1
         self.post.save()
         super().delete(*args, **kwargs)
+# NHS/NHSApp/models.py end

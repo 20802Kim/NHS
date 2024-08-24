@@ -1,31 +1,46 @@
 <!-- NHS/NHSApp/templates/NHSApp/account.html start -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>남목 커뮤니티</title>
-        {%load static%}
-        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'NHSApp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css">
     </head>
-    <body class="big-font">
-        <div>남목 커뮤니티</div>
-        <hr>
-        <a href="/NHSApp/">뒤로 가기</a>
-        <hr>
-        <div>
-            {{account.username}}의 게시글
-            {%for post in post_list%}
-            <div>
-                <a href="/NHSApp/{{post.pk}}">{{post.title}}</a> [{{post.comment_num}}]
-            </div>
-            <div class="small-font">
-                {{post.author}} {{post.pub_date.hour}}:{{post.pub_date.minute}}
-                {{post.views}}
-                {{post.total_votes}}
-            </div>
-            {%endfor%}
-        </div>
-    </body>
+    <div class="container my-3">
+        <h2 class="border-bottom py-2">{{account.username}}의 게시글</h2>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/NHSApp' ">
+            뒤로 가기
+        </button>
+        <table class="table">
+            <thead>
+                <tr class="thead-dark">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성일시</th>
+                    <th>조회수</th>
+                    <th>추천수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for post in post_list%}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>
+                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">{{post.title}}</a>
+                        [{{post.comment_num}}]
+                    </td>
+                    <td>{{post.pub_date}}</td>
+                    <td>{{post.views}}</td>
+                    <td>{{post.total_votes}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
 </html>
+{%endblock%}
 <!-- NHS/NHSApp/templates/NHSApp/account.html end -->

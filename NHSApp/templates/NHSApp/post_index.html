@@ -1,14 +1,137 @@
 <!-- NHS/NHSApp/templates/NHSApp/post_index.html start -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{post.title}}</title>
-        {%load static%}
-        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'NHSApp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css">
     </head>
-    <body class="big-font">
+    <div class="container my-3">
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/NHSApp' ">
+            뒤로 가기
+        </button>
+        {%if user.is_authenticated%}
+        <button type="button" class="btn btn-outline-danger" onclick="location.href='delete_post' ">
+            글 삭제하기
+        </button>
+        {%endif%}
+        {% if messages %}
+        
+        <div class="alert-container">
+            {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="d-flex flex-wrap text-muted gap-2">
+            <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:gray"><strong>{{ post.author }}</strong></a>
+            <div>{{post.pub_date|date:"M d, Y, g:i a"}}</div>
+            <div>{{post.views}}views </div>
+            <div>{{post.total_votes}}likes </div>
+            <div>{{post.category}}</div>
+        </div>
+        <h2 class="border-bottom py-2">{{post.title}}</h2>
+        <div>{{post.content}}</div>
+        {%if user.is_authenticated%}
+        <div class="d-flex align-items-center">
+            <form method="post" action="{%url 'upvote_post_view' post.id%}">
+                {%csrf_token%}
+                <button type="submit button" class="btn btn-outline-success">추천 {{post.total_upvotes}}</button>
+            </form>
+            <form method="post" action="{%url 'downvote_post_view' post.id%}">
+                {%csrf_token%}
+                <button type="submit button" class="btn btn-outline-danger">비추 {{post.total_downvotes}}</button>
+            </form>
+        </div>
+        {%endif%}
+        
+        <h5 class="border-bottom py-2">댓글수 {{post.comment_num}}</h3>
+            <table class="table">
+                <thead>
+                    <!-- <tr class="thead-dark">
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일시</th>
+                    </tr> -->
+                </thead>
+                <tbody>
+                    {%for comment in comment_list%}
+                    <tr>
+                        <td>
+                            <a href="/NHSApp/account/{{comment.author.username}}" style="text-decoration-line:none; color:black">
+                                {{comment.author.username}}
+                            </a>
+                        </td>
+                        <td>{{comment.content|linebreaksbr}}</td>
+                        <td>{{comment.pub_date}}</td>
+                        {%if user.is_authenticated%}
+                        <td>
+                            <button type="button" class="btn btn-outline-danger" onclick="location.href='delete_comment/{{comment.pk}}' ">
+                                글 삭제하기
+                            </button>
+                        </td>
+                        {%endif%}
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%if user.is_authenticated%}
+            <div class="d-flex align-items-center">
+                <form method="post" action="{% url 'upload_comment_view' post.id %}" class="w-100">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <textarea class="form-control" aria-label="upload_comment" name="content" placeholder="댓글 작성하기" style="resize: none; width: 100%;" rows="3"></textarea>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary text-nowrap">댓글 작성</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {%endif%}
+            
+        <h2 class="border-bottom py-2">게시판</h2>
+        <table class="table">
+            <thead>
+                <tr class="thead-dark">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일시</th>
+                    <th>조회수</th>
+                    <th>추천수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for post in post_list%}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>
+                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">
+                            {{post.title}}
+                        </a>
+                        [{{post.comment_num}}]
+                    </td>
+                    <td>
+                        <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:black">
+                            {{post.author.username}}
+                        </a>
+                    </td>
+                    <td>{{post.pub_date}}</td>
+                    <td>{{post.views}}</td>
+                    <td>{{post.total_votes}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+
+    </div>
+    <!-- <body class="big-font">
         <div>남목 커뮤니티</div>
         {%if user.is_authenticated%}
             <form method="post" action="{%url 'logout_view'%}">
@@ -90,6 +213,7 @@
             {{post.total_votes}}likes
         </div>
         {%endfor%}
-    </body>
+    </body> -->
 </html>
+{%endblock%}
 <!-- NHS/NHSApp/templates/NHSApp/post_index.html end -->

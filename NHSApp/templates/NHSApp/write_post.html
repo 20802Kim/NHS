@@ -1,34 +1,26 @@
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>남목 커뮤니티</title>
-        {%load static%}
-        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
-    </head>
-    <body class="big-font">
-        <div>남목 커뮤니티</div>
-        <hr>
-        <div>글쓰기</div>
-        <div class="parent">
-            <div class="child">현재 계정{{user.username}}</div>
-            <a href="/NHSApp" class="child">뒤로 가기</a>
+<!-- NHS/NHSApp/templates/NHSApp/write_post.html start -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-3">
+    <form method="post" action="{%url 'upload_post_view'%}">
+        {%csrf_token%}
+        <div class="input-group mb-3">
+            <textarea class="form-control" aria-label="title" name="title" placeholder="글 제목" style="resize: none; width: 100%;" rows="1"></textarea>
+            <textarea class="form-control" aria-label="content" name="content" placeholder="글 내용" style="resize: none; width: 100%;" rows="10"></textarea>
+            <div class="input-group">
+                <select class="form-select" name="category" aria-label="카테고리 설정하기">
+                    <option value="general">일반</option>
+                    <option value="question">질문</option>
+                    <option value="notice">공지</option>
+                </select>
+            </div>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary text-nowrap">글 올리기</button>
+            </div>
         </div>
-        <form method="post" action="{%url 'upload_post_view'%}">
-            {%csrf_token%}
-            <div class="parent">
-                <div class="child">제목</div>
-                <textarea style="resize: none;" class="normal-font" placeholder="제목" name="title"></textarea>
-            </div>
-            <div class="parent">
-                <div class="child">내용</div>
-                <textarea style="width: 600px; height: 100px;resize: none;" class="normal-font" placeholder="내용" name="content"></textarea>
-            </div>
-            <button type="submit">
-                글 올리기
-            </button>
-            
-        </form>
-    </body>
-</html>
+    </form>
+</div>
+<script src="{% static 'js/dropdown.js' %}"></script>
+{%endblock%}
+<!-- NHS/NHSApp/templates/NHSApp/write_post.html end -->

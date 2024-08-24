@@ -1,14 +1,100 @@
 <!-- NHS/NHSApp/templates/NHSApp/post_board.html start -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>남목 커뮤니티</title>
-        {%load static%}
-        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'NHSApp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css">
     </head>
-    <body class="big-font">
+    <div class="container my-3">
+        <h2 class="border-bottom py-2">게시판</h2>
+        <div class="nav-item d-flex align-items-center">
+            {%if user.is_authenticated%}
+            <button type="button" class="btn btn-outline-secondary text-nowrap" onclick="location.href='/NHSApp/upload_post' ">
+                글 쓰기
+            </button>
+            {%endif%}
+            <div class="input-group flex-grow-1 text-nowrap">
+                <form method="get" action="" class="d-flex">
+                    <input type="text" class="form-control" placeholder="글 검색하기" aria-label="Search" aria-describedby="basic-addon1" name="search" value="{{ request.GET.search }}">
+                </form>                             
+            </div>
+        </div>
+        <div>
+            {%for cat in categories%}
+            {%if cat == current_tab%}
+            <a href="{% url 'post_board_view' %}?tab={{ cat }}&search={{ request.GET.search }}" class="btn btn-secondary text-nowrap">
+                {{ cat }}
+            </a>
+            {%else%}
+            <a href="{% url 'post_board_view' %}?tab={{ cat }}&search={{ request.GET.search }}" class="btn btn-outline-secondary text-nowrap">
+                {{ cat }}
+            </a>
+            {%endif%}
+            {%endfor%}
+        </div>
+        <table class="table">
+            <tbody>
+                {%for post in n_post_list%}
+                <tr>
+                    <td>{{post.category}}</td>
+                    <td>
+                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">
+                            {{post.title}}
+                        </a>
+                        [{{post.comment_num}}]
+                    </td>
+                    <td>
+                        <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:black">
+                            {{post.author.username}}
+                        </a>
+                    </td>
+                    <td>{{post.pub_date}}</td>
+                    <td>{{post.views}}</td>
+                    <td>{{post.total_votes}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr class="thead-dark">
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일시</th>
+                    <th>조회수</th>
+                    <th>추천수</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for post in post_list%}
+                <tr>
+                    <td>{{post.category}}</td>
+                    <td>
+                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">
+                            {{post.title}}
+                        </a>
+                        [{{post.comment_num}}]
+                    </td>
+                    <td>
+                        <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:black">
+                            {{post.author.username}}
+                        </a>
+                    </td>
+                    <td>{{post.pub_date}}</td>
+                    <td>{{post.views}}</td>
+                    <td>{{post.total_votes}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <!-- <body class="big-font">
         <div>남목 커뮤니티</div>
         {%if user.is_authenticated%}
             <form method="post" action="{%url 'logout_view'%}">
@@ -41,6 +127,7 @@
             </div>
             {%endfor%}
         </div>
-    </body>
+    </body> -->
 </html>
+{%endblock%}
 <!-- NHS/NHSApp/templates/NHSApp/post_board.html end -->

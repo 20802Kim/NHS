@@ -5,9 +5,13 @@ from ..models import Post, Comment
 def upload_post_view(request):
     context={}
     if request.method == 'POST':
+        category_ko=list(tab_ko for (tab_ko, tab_en) in Post.CATEGORY_CHOICES)
+        category_en=list(tab_en for (tab_ko, tab_en) in Post.CATEGORY_CHOICES)
         title=request.POST.get('title')
         content=request.POST.get('content').replace('\r\n','\n')
-        post=Post.objects.create(author=request.user, title=title, content=content)
+        category=request.POST.get('category')
+        if category in category_en:category=category_ko[category_en.index(category)]
+        post=Post.objects.create(author=request.user, title=title, content=content, category=category)
         return redirect('post_index_view', post.pk)
     else:
         context['user']=request.user

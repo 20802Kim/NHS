@@ -1,14 +1,37 @@
 <!-- NHS/NHSApp/templates/NHSApp/login.html start -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>로그인</title>
-        {%load static%}
-        <link rel="stylesheet" href="{%static 'NHSApp/css/style.css'%}">
+        <link rel="stylesheet" href="{% static 'NHSApp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css">
     </head>
-    <body class="big-font">
+    <div class="container my-3">
+        <h2 class="border-bottom py-2">로그인하기</h2>
+        {%if error%}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {%endif%}
+        <form method="post" action="{%url 'login_view'%}">
+            {%csrf_token%}
+            <div class="input-group flex-grow-1 text-nowrap">
+                <input type="text" class="form-control" placeholder="id" aria-label="id" aria-describedby="basic-addon1" name="username">
+            </div>
+            <div class="input-group flex-grow-1 text-nowrap">
+                <input type="password" class="form-control" placeholder="password" aria-label="Password" aria-describedby="basic-addon1" name="password">
+            </div>
+            <button type="button submit" class="btn btn-secondary">
+                로그인하기
+            </button>
+        </form>
+
+    </div>
+    <!-- <body class="big-font">
         <div>로그인</div>
         <form method="post" action="{% url 'login_view' %}">
             {%csrf_token%}
@@ -21,6 +44,7 @@
             {%endif%}
             <button type="submit">로그인하기</button>
         </form>
-    </body>
+    </body> -->
 </html>
+{%endblock%}
 <!-- NHS/NHSApp/templates/NHSApp/login.html end -->
