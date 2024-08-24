@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" type="text/css">
     </head>
     <div class="container my-3">
+        <h2 class="border-bottom py-2">{{post.title}}</h2>
         <button type="button" class="btn btn-outline-secondary" onclick="location.href='/NHSApp' ">
             뒤로 가기
         </button>
@@ -36,7 +37,6 @@
             <div>{{post.total_votes}}likes </div>
             <div>{{post.category}}</div>
         </div>
-        <h2 class="border-bottom py-2">{{post.title}}</h2>
         <div>{{post.content}}</div>
         {%if user.is_authenticated%}
         <div class="d-flex align-items-center">
@@ -53,6 +53,7 @@
         
         <h5 class="border-bottom py-2">댓글수 {{post.comment_num}}</h3>
             <table class="table">
+                <!-- 댓글 표시랑 답글 표시 다르게 하기 -->
                 <thead>
                     <!-- <tr class="thead-dark">
                         <th>제목</th>
@@ -69,11 +70,17 @@
                             </a>
                         </td>
                         <td>{{comment.content|linebreaksbr}}</td>
-                        <td>{{comment.pub_date}}</td>
+                        <td class="text-nowrap">{{comment.pub_date}}</td>
                         {%if user.is_authenticated%}
-                        <td>
+                        <td class="text-nowrap">
+                            <button type="button" class="btn btn-outline-secondary" onclick="location.href='upload_comment' ">
+                                답글 달기
+                            </button>
+                        </td>
+                        <!-- 여기에 드롭다운 입력창 추가해서 답글 입력할 수 있게 하기 -->
+                        <td class="text-nowrap">
                             <button type="button" class="btn btn-outline-danger" onclick="location.href='delete_comment/{{comment.pk}}' ">
-                                글 삭제하기
+                                댓글 삭제하기
                             </button>
                         </td>
                         {%endif%}
