@@ -1,4 +1,7 @@
 # NHS/NHSApp/views/upload_content.py start
+
+# 콘텐츠 업로드 관련 함수 선언
+
 from django.shortcuts import render, redirect
 from ..models import Post, Comment
 

@@ -1,4 +1,7 @@
 # NHS/NHSApp/views/delete_content.py start
+
+# 콘텐츠 삭제 관련 함수
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from ..models import Post, Comment

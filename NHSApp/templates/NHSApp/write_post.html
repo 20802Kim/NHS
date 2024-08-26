@@ -1,4 +1,7 @@
 <!-- NHS/NHSApp/templates/NHSApp/write_post.html start -->
+
+<!-- write_post 화면 -->
+
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -12,7 +15,9 @@
                 <select class="form-select" name="category" aria-label="카테고리 설정하기">
                     <option value="general">일반</option>
                     <option value="question">질문</option>
+                    {%if user.is_superuser%}
                     <option value="notice">공지</option>
+                    {%endif%}
                 </select>
             </div>
             <div class="input-group-append">

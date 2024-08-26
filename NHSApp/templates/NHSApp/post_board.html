@@ -1,4 +1,7 @@
 <!-- NHS/NHSApp/templates/NHSApp/post_board.html start -->
+
+<!-- post_board 화면 -->
+
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -12,7 +15,7 @@
     </head>
     <div class="container my-3">
         <h2 class="border-bottom py-2">게시판</h2>
-        <div class="nav-item d-flex align-items-center">
+        <div class="nav-item d-flex align-items-center py-2">
             {%if user.is_authenticated%}
             <button type="button" class="btn btn-outline-secondary text-nowrap" onclick="location.href='/NHSApp/upload_post' ">
                 글 쓰기
@@ -38,29 +41,6 @@
             {%endfor%}
         </div>
         <table class="table">
-            <tbody>
-                {%for post in n_post_list%}
-                <tr>
-                    <td>{{post.category}}</td>
-                    <td>
-                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">
-                            {{post.title}}
-                        </a>
-                        [{{post.comment_num}}]
-                    </td>
-                    <td>
-                        <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:black">
-                            {{post.author.username}}
-                        </a>
-                    </td>
-                    <td>{{post.pub_date}}</td>
-                    <td>{{post.views}}</td>
-                    <td>{{post.total_votes}}</td>
-                </tr>
-                {%endfor%}
-            </tbody>
-        </table>
-        <table class="table">
             <thead>
                 <tr class="thead-dark">
                     <th>카테고리</th>
@@ -72,6 +52,25 @@
                 </tr>
             </thead>
             <tbody>
+                {%for post in n_post_list%}
+                <tr>
+                    <td class="table-warning">{{post.category}}</td>
+                    <td class="table-warning">
+                        <a href="/NHSApp/{{post.pk}}" style="text-decoration-line:none; color:black">
+                            {{post.title}}
+                        </a>
+                        [{{post.comment_num}}]
+                    </td>
+                    <td class="table-warning">
+                        <a href="/NHSApp/account/{{post.author.username}}" style="text-decoration-line:none; color:black">
+                            {{post.author.username}}
+                        </a>
+                    </td>
+                    <td class="table-warning">{{post.pub_date}}</td>
+                    <td class="table-warning">{{post.views}}</td>
+                    <td class="table-warning">{{post.total_votes}}</td>
+                </tr>
+                {%endfor%}
                 {%for post in post_list%}
                 <tr>
                     <td>{{post.category}}</td>

@@ -1,4 +1,5 @@
 # NHS/NHSApp/urls.py start
+# views랑 url을 연결
 
 from django.urls import path
 from .views import post_board_view, post_index_view

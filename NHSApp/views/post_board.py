@@ -1,4 +1,7 @@
 # NHS/NHSApp/views/post_board.py start
+
+# post_board (게시판) 함수 선언
+
 from django.shortcuts import render
 from ..models import Post
 

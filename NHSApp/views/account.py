@@ -1,4 +1,7 @@
 # NHS/NHSApp/views/account.py start
+
+# 계정 관련 함수 선언
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from ..models import Post
