@@ -1,9 +1,23 @@
-# NHS/NHSApp/views/post_board.py start
+# NHS/NHSApp/views/page.py start
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from ..models import Post, Comment
 
-# post_board (게시판) 함수 선언
-
-from django.shortcuts import render
-from ..models import Post
+def post_index_view(request, post_id):
+    post=Post.objects.get(pk=post_id)
+    post_list=list(Post.objects.order_by('-pub_date'))
+    post.views+=1
+    post.save()
+    comment_list=list(Comment.objects.filter(post=post).order_by('pub_date'))
+    n_post_list=Post.objects.filter(category='공지').order_by('-pub_date')
+    context={
+        'user':request.user,
+        'post':post,
+        'comment_list':comment_list,
+        'post_list':post_list,
+        'n_post_list':n_post_list
+    }
+    return render(request, 'NHSApp/post_index.html', context)
 
 def post_board_view(request):
     context={}
@@ -25,4 +39,4 @@ def post_board_view(request):
     context['n_post_list']=n_post_list
     
     return render(request, 'NHSApp/post_board.html', context)
-# NHS/NHSApp/views/post_board.py end
+# NHS/NHSApp/views/page.py end

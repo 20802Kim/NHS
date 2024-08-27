@@ -3,6 +3,7 @@
 # 콘텐츠 업로드 관련 함수 선언
 
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from ..models import Post, Comment
 
 def upload_post_view(request):
@@ -25,4 +26,19 @@ def upload_comment_view(request, post_id):
     content=request.POST.get('content').replace('\r\n','\n')
     Comment.objects.create(post=post, author=request.user, content=content)
     return redirect('post_index_view', post_id)
+
+def upvote_post_view(request, post_id):
+    post=Post.objects.get(pk=post_id)
+    if post.add_upvote(request.user):
+        return redirect('post_index_view', post_id)
+    else:
+        messages.error(request, '이미 추천했습니다!')
+        return redirect('post_index_view', post_id)
+def downvote_post_view(request, post_id):
+    post=Post.objects.get(pk=post_id)
+    if post.add_downvote(request.user):
+        return redirect('post_index_view', post_id)
+    else:
+        messages.error(request, '이미 비추천했습니다!')
+        return redirect('post_index_view', post_id)
 # NHS/NHSApp/views/upload_content.py end
