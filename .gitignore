@@ -1,0 +1,7 @@
+# Django 관련
+*.pyc
+__pycache__/
+db.sqlite3
+
+# 환경 설정 파일
+.env

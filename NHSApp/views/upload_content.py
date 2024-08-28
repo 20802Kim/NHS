@@ -34,6 +34,7 @@ def upvote_post_view(request, post_id):
     else:
         messages.error(request, '이미 추천했습니다!')
         return redirect('post_index_view', post_id)
+
 def downvote_post_view(request, post_id):
     post=Post.objects.get(pk=post_id)
     if post.add_downvote(request.user):
